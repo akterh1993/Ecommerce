@@ -16,7 +16,7 @@ const Sidebar = ({showSidebar, setShowSidebar}) => {
   return (
     <div>
       <div onClick={()=> setShowSidebar(false)} className={`fixed duration-200 ${!showSidebar ? 'invisible': 'visible'} w-screen h-screen bg-[#22292f80] top-0 left-0 z-10`}></div>
-      <div className={`w-[260px] fixed bg-[#84d0e9] z-50 top-0 h-screen shadow-[0_0_15px_0_rgb(34_41_47_/_5%)] transition-all ${showSidebar ? 'left-0': '-left-[260px] lg:left-0'}`}>
+      <div className={`w-[260px] fixed bg-[#25246da1] z-50 top-0 h-screen shadow-[0_0_15px_0_rgb(34_41_47_/_5%)] transition-all ${showSidebar ? 'left-0': '-left-[260px] lg:left-0'}`}>
         <div className='h-[70px] flex justify-center items-center'>
           <Link to='/' className='w-[180px] h-[50px]'>
             <img className='w-full h-full' src='http://localhost:3000/images/zglogo.png' alt='images' />
