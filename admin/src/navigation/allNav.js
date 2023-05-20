@@ -42,17 +42,17 @@ export const allNav = [
   },
   {
     id: 6,
-    title: "Detactive Sellers",
+    title: "Deactive Sellers",
     icon: <FiUsers />,
     role: "admin",
-    path: "/admin/dashboard/detactive-sellers",
+    path: "/admin/dashboard/deactive-seller",
   },
   {
     id: 7,
     title: "Sellers Request",
     icon: <BiLoaderCircle />,
     role: "admin",
-    path: "/admin/dashboard/sellers-request",
+    path: "/admin/dashboard/seller-request",
   },
   {
     id: 8,
