@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BsImage } from "react-icons/bs";
@@ -102,9 +103,9 @@ const AddProduct = () => {
     setImageShow(filterImageUrl)
     
   }
-  // useEffect(() => {
-  //   setAllCategory(categorys)
-  // }, [])
+  useEffect(() => {
+    setAllCategory(categorys)
+  }, [])
   return (
     <div className="px-2 lg:px-7 pt-5 pb-3">
       <div className="w-full p-4 bg-[#283046] rounded-md">
