@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BsImage } from "react-icons/bs";
+import { IoCloseSharp } from "react-icons/io5";
 
 const AddProduct = () => {
   const categorys =[
@@ -81,12 +82,31 @@ const AddProduct = () => {
       
     }
   }
- 
+  const changeImage = (img, index)=>{
+    if (img) {
+      let tempUrl = imageShow
+      let tempImages = images
+      tempImages[index] = img
+      tempUrl[index] ={url : URL.createObjectURL(img)}
+      setImageShow([...tempUrl])
+      setImages([...tempImages])
+      
+    } else {
+      
+    }
+  }
+  const removeImage =(i)=>{
+    const filterImage = images.filter((img, index) => index !== i)
+    const filterImageUrl = imageShow.filter((img, index) => index !== i)
+    setImages(filterImage)
+    setImageShow(filterImageUrl)
+    
+  }
   // useEffect(() => {
   //   setAllCategory(categorys)
   // }, [])
   return (
-    <div className="px-2 lg:px-7 pt-5">
+    <div className="px-2 lg:px-7 pt-5 pb-3">
       <div className="w-full p-4 bg-[#283046] rounded-md">
         <div className="flex justify-between items-center pb-4">
             <h2 className='text-[#d0d2d6] text-xl font-semibold'>Add Product</h2>
@@ -154,6 +174,8 @@ const AddProduct = () => {
                   <label htmlFor='i' >
                     <img className='w-full h-full rounded-sm' src={img.url} alt='' />
                   </label>
+                  <input onChange={(e) =>changeImage(e.target.files[0],i)} type='file' id={i} className='hidden' />
+                  <span onClick={()=>removeImage(i)} className='p-2 z-10 cursor-pointer bg-slate-700 hover:shadow-lg hover:shadow-slate-400/50 text-white absolute top-1 right-1 rounded-full '><IoCloseSharp/></span>
                 </div> 
                 )
               }
@@ -164,7 +186,7 @@ const AddProduct = () => {
                     <input multiple onChange={inputImageHandle} className="hidden" type="file" name="image" id="image" />
                 </div>
                 <div>
-                    <button className="bg-blue-500 w-full hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 my-2.5">Add Product</button>
+                    <button className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 my-2.5">Add Product</button>
                 </div>
             </div>
           </form>
