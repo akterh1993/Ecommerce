@@ -69,7 +69,7 @@ const Category = () => {
                       >
                         <img
                           className=" w-[45px] h-[45px]"
-                          src={`http://192.168.0.118:3000/images/category/${d}.png`}
+                          src={`http://localhost:3000/images/category/${d}.png`}
                           alt="images"
                         />
                       </td>
