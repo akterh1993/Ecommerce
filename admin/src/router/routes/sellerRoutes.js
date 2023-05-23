@@ -16,51 +16,74 @@ export const sellerRoutes = [
     {
         path: '/',
         element: <Home />,
-        ability : ['admin', 'seller']
+        role : ['admin', 'seller'],
+        status : 'active'
     },
     {
         path: '/seller/dashboard',
         element: <SellerDashboard />,
-        ability : ['seller']
+        role : 'seller',
+        status : 'active'
     },
     {
         path: '/seller/dashboard/add-product',
         element: <AddProduct />,
-        ability : ['seller']
+        role : 'seller',
+        status : 'active'
+    },
+    {
+        path: '/seller/dashboard/edit-product/:productId',
+        element: <AddProduct />,
+        role : 'seller',
+        status : 'active'
     },
     {
         path: '/seller/dashboard/products',
         element: <AllProducts />,
-        ability : ['seller']
+        role : 'seller',
+        status : 'active'
     },
     {
         path: '/seller/dashboard/discount-product',
         element: <DiscountProduct />,
-        ability : ['seller']
+        role : 'seller',
+        status : 'active'
     },
     {
         path: '/seller/dashboard/orders',
         element: <SellerOrder />,
-        ability : ['seller']
+        role : 'seller',
+        ability : ['active', 'deactive']
     },
     {
         path: '/seller/dashboard/payments',
         element: <Payment />,
-        ability : ['seller']
+        role : 'seller',
+        status : 'active'
     },
     {
-        path: '/seller/dashboard/chat-customer',
+        path: '/seller/dashboard/chat-customer/:customerId',
         element: <ChatCustomer />,
-        ability : ['seller']
+        role : 'seller',
+        status : 'active'
+    },
+    {
+        path: '/seller/dashboard/chat-customer/',
+        element: <ChatCustomer />,
+        role : 'seller',
+        status : 'active'
     },
     {
         path: '/seller/dashboard/chat-support',
         element: <ChatSupport />,
-        ability : ['seller']
+        role : 'seller',
+        ability : ['active', 'deactive', 'pending']
+        
     },
     {
         path: '/seller/dashboard/profile',
         element: <Profile />,
-        ability : ['seller']
+        role : 'seller',
+        status : 'active'
     },
 ]

@@ -183,7 +183,7 @@ const ChatSeller = () => {
               </div>
               <form className="flex gap-3">
                 <input className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]" type="text" placeholder="Enter Your Massege" />
-                <button className="shadow-lg bg-cyan-500 hover:shadow-cyan-500/50 text-semibold w-75px] h-[35px] rounded-md text-white flex justify-center items-center cursor-pointer ">Send</button>
+                <button className="shadow-lg bg-cyan-500 hover:shadow-cyan-500/50 text-semibold w-[75px] h-[35px] rounded-md text-white flex justify-center items-center cursor-pointer ">Send</button>
               </form>
           </div>
         </div>

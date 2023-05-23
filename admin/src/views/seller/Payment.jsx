@@ -18,7 +18,7 @@ const Payment = () => {
         <div className='w-[25%] p-2 whitespace-nowrap'>{index +1 }</div>
         <div className='w-[25%] p-2 whitespace-nowrap'>$5000</div>
         <div className='w-[25%] p-2 whitespace-nowrap'>
-          <span className='py-[1px] px-[5px] bg-slate-700 text-blue-500 rounded-md text-xs'>Pending</span>
+          <span className='py-[1px] px-[5px] bg-slate-700 text-blue-500 rounded-md text-xs'>Successfull</span>
         </div>
         <div className='w-[25%] p-2 whitespace-nowrap'>20 may 2023</div>
       </div>
