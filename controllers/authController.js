@@ -69,12 +69,14 @@ class authController {
       })
       const token = await createToken({id: user.id, role: user.role})
       res.cookie("accessToken", token, {
-        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
       })
-      responseReturn(res, 200, { token, message: "Register Success" });
+  
+      responseReturn(res, 200, { token, message: "Register Success" })
     }
+    console.log('token')
   } catch (error) {
-    responseReturn(res, 500, { error: 'Internal Server Error' });
+    responseReturn(res, 500, { error: 'Internal Server Error' })
   }
   };
 

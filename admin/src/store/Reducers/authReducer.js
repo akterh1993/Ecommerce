@@ -23,7 +23,6 @@ export const user_register = createAsyncThunk(
             localStorage.setItem('accessToken', data.token)
             console.log(data)
             return fulfillWithValue(data);
-
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
