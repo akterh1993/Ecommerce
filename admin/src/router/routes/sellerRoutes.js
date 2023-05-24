@@ -11,6 +11,7 @@ const Payment = lazy(() => import("../../views/seller/Payment"));
 const ChatCustomer = lazy(() => import("../../views/seller/ChatCustomer"));
 const ChatSupport = lazy(() => import("../../views/seller/ChatSupport"));
 const Profile = lazy(() => import("../../views/seller/Profile"));
+const EditProduct = lazy(() => import("../../views/seller/EditProduct"));
 
 export const sellerRoutes = [
     {
@@ -33,7 +34,7 @@ export const sellerRoutes = [
     },
     {
         path: '/seller/dashboard/edit-product/:productId',
-        element: <AddProduct />,
+        element: <EditProduct />,
         role : 'seller',
         status : 'active'
     },
