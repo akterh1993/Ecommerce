@@ -14,6 +14,19 @@ export const admin_login = createAsyncThunk(
         }
     }
 )
+export const user_login = createAsyncThunk(
+    'auth/user_login',
+    async (info, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.post('/user-login', info, {withCredentials: true});
+            localStorage.setItem('accessToken', data.token)
+            return fulfillWithValue(data);
+
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
 export const user_register = createAsyncThunk(
     'auth/user_register',
     async (info, { rejectWithValue, fulfillWithValue }) => {
@@ -52,6 +65,17 @@ export const authReducer = createSlice({
         state.errorMessage = payload.error
        },
        [admin_login.fulfilled]: (state, { payload }) => {
+        state.loader = false
+        state.successMessage = payload.message
+       },
+       [user_login.pending]: (state, _) =>{
+        state.loader = true
+       },  
+       [user_login.rejected]: (state, { payload }) => {
+        state.loader = false
+        state.errorMessage = payload.error
+       },
+       [user_login.fulfilled]: (state, { payload }) => {
         state.loader = false
         state.successMessage = payload.message
        },

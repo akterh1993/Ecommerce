@@ -1,11 +1,20 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineGithub, AiOutlineGooglePlus } from "react-icons/ai";
 import { FiFacebook } from "react-icons/fi";
 import { CiTwitter } from "react-icons/ci";
+import toast from "react-hot-toast";
+import { PropagateLoader } from "react-spinners";
+import { useDispatch, useSelector } from "react-redux";
+import { overrideStyle } from '../../utils/utils'
+import { user_login, messageClear } from "../../store/Reducers/authReducer";
 
 
 const Login = () => {
+  const { loader, errorMessage, successMessage} = useSelector( state => state.auth)
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -20,8 +29,20 @@ const Login = () => {
   };
   const submit = (e) => {
     e.preventDefault();
-    console.log(state);
+    dispatch(user_login(state));
   };
+  useEffect(()=>{
+    if(errorMessage){
+      toast.error(errorMessage)
+      dispatch(messageClear())
+    }
+    if(successMessage){
+      toast.success(successMessage)
+      dispatch(messageClear())
+      navigate('/')
+    }
+  },[errorMessage, successMessage])
+  
   return (
     <div
       className="main-w-screen main-h-screen bg-[#161d31] flex
@@ -60,8 +81,21 @@ const Login = () => {
                 required
               />
             </div>
-            <button className="bg-blue-500 w-full hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3">
-              Login
+            {/* <div className="flex flex-col w-full gap-1 mb-5">
+              <label htmlFor="password">Role :</label>
+              <select
+                onChange={(e) =>(e.target.value)}
+                className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
+              >
+                <option value="id">admin</option>
+                <option value="id">seller</option>
+                <option value="id">user</option>
+              </select>
+            </div> */}
+            <button disabled= { loader ? true : false } className="bg-blue-500 w-full hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3">
+              {
+                loader ? <PropagateLoader color ='#fff' cssOverride={overrideStyle} /> : 'Login'
+              }
             </button>
             <div className="flex items-center mb-3 gap-3 justify-center">
               <p>

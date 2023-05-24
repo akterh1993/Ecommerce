@@ -48,6 +48,35 @@ class authController {
       responseReturn(res, 500, { error: error.message });
     }
   };
+
+  //User Login
+
+  user_login = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+      const user = await userModel.findOne({ email }).select("+password");
+      if (user) {
+        const match = await bcrypt.compare(password, user.password);
+        if (match) {
+          const token = await createToken({
+            id: user.id,
+            role: user.role,
+          });
+          res.cookie("accessToken", token, {
+            expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          });
+          responseReturn(res, 200, { token, message: "Login Success" });
+        } else {
+          responseReturn(res, 404, { error: "Password Wrong" });
+        }
+      } else {
+        responseReturn(res, 404, { error: "Email Not Found" });
+      }
+    } catch (error) {
+      responseReturn(res, 500, { error: "Internal Server Error" });
+    }
+  };
+
   //User Register
   user_register = async (req, res) => {
     const { email, mobile, name, password } = req.body;
