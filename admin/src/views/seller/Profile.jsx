@@ -113,8 +113,8 @@ const Profile = () => {
           </div>
         </div>
         <div className='w-full md:w-6/12'>
-        <div className='w-full pl-0 md:pl-7 mt-6 md:mt-6'>
-          <div className=' bg-[#283046] rounded-md text-[#d0d2d6] p-4 '>
+        <div className='w-full md:pl-7 mt-6 md:mt-6'>
+        <div className='w-full p-4 bg-[#283046] rounded-md text-[#d0d2d6]'>
           <h2 className='text-[#d0d2d6] text-lg mb-3 font-semibold'>Change Password</h2>
           <form>
                   <div className='flex flex-col w-full gap-3'>
