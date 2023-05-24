@@ -71,41 +71,12 @@ const AddProduct = () => {
       setAllCategory(categorys)
     }
   }
-  const inputImageHandle = (e)=>{
-    const files =e.target.files
-    const length = files.length;
-    if (length > 0 ) {
-      setImages([...images , ...files])
-      let imageUrl = []
-
-      for (let i = 0; i < length; i++) {
-        imageUrl.push({url: URL.createObjectURL(files[i])})
-        
-      }
-      setImageShow([...imageShow, ...imageUrl])
-    } else {
-      
+  
+  const changeImage = (img, files)=>{
+    if (files.length>0){
+      console.log(img)
+      console.log(files[0])
     }
-  }
-  const changeImage = (img, index)=>{
-    if (img) {
-      let tempUrl = imageShow
-      let tempImages = images
-      tempImages[index] = img
-      tempUrl[index] ={url : URL.createObjectURL(img)}
-      setImageShow([...tempUrl])
-      setImages([...tempImages])
-      
-    } else {
-      
-    }
-  }
-  const removeImage =(i)=>{
-    const filterImage = images.filter((img, index) => index !== i)
-    const filterImageUrl = imageShow.filter((img, index) => index !== i)
-    setImages(filterImage)
-    setImageShow(filterImageUrl)
-    
   }
   useEffect(() => {
     setState({
@@ -188,20 +159,15 @@ const AddProduct = () => {
             <div>
             <div className='grid lg:grid-cols-4 grid-cols-1 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 md:gap-4 gap-3 w-full text-[#d0d2d6] mb-4'>
               {
-                imageShow.map((img, i) => <div className='h-[180px] relative'>
-                  <label htmlFor='i' >
+                imageShow.map((img, i) => <div>
+                  <label htmlFor={i} >
                     <img className='w-full h-full rounded-sm' src={img} alt='' />
                   </label>
-                  <input onChange={(e) =>changeImage(e.target.files[0],i)} type='file' id={i} className='hidden' />
-                  <span onClick={()=>removeImage(i)} className='p-2 z-10 cursor-pointer bg-slate-700 hover:shadow-lg hover:shadow-slate-400/50 text-white absolute top-1 right-1 rounded-full '><IoCloseSharp/></span>
+                  <input onChange={(e) =>changeImage(img, e.target.files)} type='file' id={i} className='hidden' />
+                
                 </div> 
                 )
               }
-                    <label className="flex justify-center items-center flex-col h-[180px] cursor-pointer border border-dashed hover:border-indigo-500 w-full border-[#d0d2d6] " htmlFor="image" >
-                        <span> <BsImage /></span>
-                        <span>Select Image</span>
-                    </label>
-                    <input multiple onChange={inputImageHandle} className="hidden" type="file" name="image" id="image" />
                 </div>
                 <div>
                     <button className="bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 my-2.5">Update Product</button>

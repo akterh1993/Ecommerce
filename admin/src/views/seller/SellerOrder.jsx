@@ -71,7 +71,7 @@ const SellerOrder = () => {
                     scope="row"
                     className="py-3 px-4 font-medium whitespace-nowrap"
                   >
-                    <Link className="p-[6px] flex justify-center items-center w-[30px] bg-green-500 ruonded hover:shadow-lg hover:shadow-green-500/50">
+                    <Link to={`/seller/dashboard/order/details/4562`} className="p-[6px] flex justify-center items-center w-[30px] bg-green-500 ruonded hover:shadow-lg hover:shadow-green-500/50">
                       <FaEye />
                     </Link>
                   </td>

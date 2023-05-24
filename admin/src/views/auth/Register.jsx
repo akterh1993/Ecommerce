@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineGithub, AiOutlineGooglePlus } from "react-icons/ai";
 import { FiFacebook } from "react-icons/fi";
 import { CiTwitter } from "react-icons/ci";
+import { PropagateLoader } from "react-spinners";
+import { useDispatch, useSelector } from "react-redux";
+import { overrideStyle } from '../../utils/utils'
+import { messageClear, user_register } from "../../store/Reducers/authReducer";
+import toast from "react-hot-toast";
 
 const Register = () => {
+  // const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const { loader, successMessage, errorMessage } = useSelector( state => state.auth)
   const [state, setState] = useState({
     name: "",
     email: "",
@@ -21,8 +29,19 @@ const Register = () => {
   };
   const submit = (e) => {
     e.preventDefault();
-    console.log(state);
+    dispatch(user_register(state))
   };
+
+  useEffect(()=>{
+    if (successMessage) {
+      toast.success(successMessage)
+      dispatch(messageClear())
+    }
+    if (errorMessage) {
+      toast.error(errorMessage)
+      dispatch(messageClear())
+    }
+  },[dispatch, successMessage, errorMessage])
   return (
     <div className="main-w-screen main-h-screen bg-[#161d31] flex justify-center items-center">
       <div className="w-[350px] text-[#d0d2d6] p-2">
@@ -72,19 +91,6 @@ const Register = () => {
               />
             </div>
             <div className="flex flex-col w-full gap-1 mb-3">
-              <label htmlFor="image">Upload Your Image :</label>
-              <input
-                onChange={inputHandle}
-                value={state.image}
-                className="px-3 py-2 outline-none border border-slate-700 bg-transparent rounded-md text-[#d0d2d6] focus:border-indigo-500 overflow-hidden"
-                type="text"
-                name="image"
-                placeholder="Enter Your image name"
-                id="image"
-                required
-              />
-            </div>
-            <div className="flex flex-col w-full gap-1 mb-3">
               <label htmlFor="password">Password :</label>
               <input
                 onChange={inputHandle}
@@ -109,8 +115,11 @@ const Register = () => {
                 I Agree To Privacy Policy, Terms & Condition
               </label>
             </div>
-            <button className="bg-blue-500 w-full hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3">
-              Sign Up
+            <button disabled= { loader ? true : false } className="bg-blue-500 w-full hover:shadow-blue-500/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3">
+              {
+                loader ? <PropagateLoader color ='#fff' cssOverride={overrideStyle} /> : 'SignUp'
+}
+              
             </button>
             <div className="flex items-center mb-3 gap-3 justify-center">
               <p>
