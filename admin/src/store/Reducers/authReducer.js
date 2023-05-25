@@ -31,16 +31,34 @@ export const user_register = createAsyncThunk(
     'auth/user_register',
     async (info, { rejectWithValue, fulfillWithValue }) => {
         try {
-          console.log(info)
+            console.log(info)
             const { data } = await api.post('/user-register', info, {withCredentials: true});
             localStorage.setItem('accessToken', data.token)
-            console.log(data)
             return fulfillWithValue(data);
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
     }
 )
+export const get_user_info = createAsyncThunk(
+    'auth/get_user_info',
+    async (_, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.get('/user-info', {withCredentials: true});
+            return fulfillWithValue(data);
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
+
+const returnRole = (token) =>{
+    if (token) {
+        console.log(token)
+    } else {
+        return ''
+    }
+}
 
 export const authReducer = createSlice({
     name : 'auth',
@@ -49,6 +67,8 @@ export const authReducer = createSlice({
       errorMessage: "",
       loader: false,
       userinfo: "",
+      role: returnRole(localStorage.getItem('accessToken')),
+      token: " ",
       },
     reducers: {
       messageClear: (state, _) => {
@@ -89,6 +109,10 @@ export const authReducer = createSlice({
        [user_register.fulfilled]: (state, { payload }) => {
         state.loader = false
         state.successMessage = payload.message
+       },
+       [get_user_info.fulfilled]: (state, { payload }) => {
+        state.loader = false
+        state.userInfo = payload.userInfo
        },
           
           

@@ -81,7 +81,7 @@ class authController {
   user_register = async (req, res) => {
     const { email, mobile, name, password } = req.body;
   try {
-    const getUser = await userModel.findOne({ email });
+    const getUser = await userModel.findOne({ email, mobile });
     if (getUser) {
       responseReturn(res, 404, { error: "User Already Exist" });
     } else {
