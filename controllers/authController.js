@@ -1,28 +1,41 @@
-const adminModel = require("../models/adminModel").default;
+
 const userModel = require("../models/userModel");
+const adminModel = require("../models/adminModel");
 const sellerCustomerModel = require("../models/chat/sellerCustomerModel");
 const bcrypt = require("bcrypt");
 const jwtt = require("jsonwebtoken");
 const { responseReturn } = require("../utils/response");
 const { createToken } = require("../utils/tokenCreate");
-class authController {
 
+
+class authController {
   admin_register = async (req, res) => {
-    const email = req.body.email;
-    try {
-      const admin = await adminModel.findOne({ email: email });
-      if (!admin) {
-        const newAdmin = await adminModel.create(req.body);
-        responseReturn(res, 200, { message: "Admin Created Successfull",
-        });
-        res.json(newAdmin);
-      } else {
-        responseReturn(res, 404, { error: "Admin Already Exist" });
-      }
-    } catch (error) {
-      responseReturn(res, 500, { error: error.message });
+    const { email, mobile, name, password } = req.body;
+  try {
+    const getUser = await adminModel.findOne({ email });
+    if (getUser) {
+      responseReturn(res, 404, { error: "User Already Exist" });
+    } else {
+      const admin = await adminModel.create({
+        name,
+        email,
+        mobile,
+        password,
+      })
+      const token = await createToken({id: admin.id, role: admin.role})
+      res.cookie("accessToken", token, {
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+      })
+  
+      responseReturn(res, 200, { token, message: "Admin Register Success" })
     }
+    
+  } catch (error) {
+    responseReturn(res, 500, { error: error.message})
+  }
   };
+
+
   admin_login = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -117,10 +130,11 @@ class authController {
         const user = await adminModel.findById(id)
         responseReturn(res, 200, { userInfo: user });
       }else {
-        console.log('seller info')
+        const seller = await userModel.findById(id)
+        responseReturn(res, 200, { userInfo: seller });
       }
     } catch (error) {
-      console.log(error.message)
+      responseReturn(res, 500, { error: 'Internal Server Error' })
     }
   }
   };

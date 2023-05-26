@@ -1,5 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from '../../api/api';
+import jwt from 'jwt-decode'
+
+export const admin_register = createAsyncThunk(
+    'auth/admin_register',
+    async (info, { rejectWithValue, fulfillWithValue }) => {
+        try {
+          console.log(info)
+            const { data } = await api.post('/admin-register', info, {withCredentials: true});
+            localStorage.setItem('accessToken', data.token)
+            console.log(data)
+            return fulfillWithValue(data);
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
 
 export const admin_login = createAsyncThunk(
     'auth/admin_login',
@@ -41,22 +57,64 @@ export const user_register = createAsyncThunk(
         }
     }
 )
+export const get_user_info = createAsyncThunk(
+    'auth/get_user_info',
+    async (_, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.get('/get-user', {withCredentials: true});
+            return fulfillWithValue(data);
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
+
+const returnRole =(token) =>{
+    if (token) {
+        const decodeToken = jwt(token)
+        const expireTime = new Date(decodeToken.exp * 1000)
+        if (new Date()>expireTime) {
+            localStorage.removeItem('accessToken')
+        } else {
+            return decodeToken.role
+        }
+        console.log(decodeToken)
+    } else {
+        return ''
+    }
+}
 
 export const authReducer = createSlice({
     name : 'auth',
     initialState: {
-      successMessage: "",
-      errorMessage: "",
+      successMessage: '',
+      errorMessage: '',
       loader: false,
-      userinfo: "",
+      userInfo: '',
+      role: returnRole(localStorage.getItem('accessToken')),
+      token: localStorage.getItem('accessToken')
       },
     reducers: {
       messageClear: (state, _) => {
         state.errorMessage = ""
         state.successMessage = ""
+        
       }
     },
     extraReducers: {
+       [admin_register.pending]: (state, _) =>{
+        state.loader = true
+       },  
+       [admin_register.rejected]: (state, { payload }) => {
+        state.loader = false
+        state.errorMessage = payload.error
+       },
+       [admin_register.fulfilled]: (state, { payload }) => {
+        state.loader = false
+        state.successMessage = payload.message
+        state.token = payload.token
+        state.role = returnRole(payload.token)
+       },
        [admin_login.pending]: (state, _) =>{
         state.loader = true
        },  
@@ -67,6 +125,8 @@ export const authReducer = createSlice({
        [admin_login.fulfilled]: (state, { payload }) => {
         state.loader = false
         state.successMessage = payload.message
+        state.token = payload.token
+        state.role = returnRole(payload.token)
        },
        [user_login.pending]: (state, _) =>{
         state.loader = true
@@ -78,6 +138,8 @@ export const authReducer = createSlice({
        [user_login.fulfilled]: (state, { payload }) => {
         state.loader = false
         state.successMessage = payload.message
+        state.token = payload.token
+        state.role = returnRole(payload.token)
        },
        [user_register.pending]: (state, _) =>{
         state.loader = true
@@ -89,6 +151,12 @@ export const authReducer = createSlice({
        [user_register.fulfilled]: (state, { payload }) => {
         state.loader = false
         state.successMessage = payload.message
+        state.token = payload.token
+        state.role = returnRole(payload.token)
+       },
+       [get_user_info.fulfilled]: (state, { payload }) => {
+        state.loader = false
+        state.userInfo = payload.userInfo
        },
           
           

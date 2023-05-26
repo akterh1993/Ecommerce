@@ -45,7 +45,7 @@ const AdminDashboard = () => {
         width : .5,
         dashArray : 0
       },
-      xaxix : {
+      xaxis : {
         categories : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
       },
       legend : {

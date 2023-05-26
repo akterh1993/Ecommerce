@@ -1,60 +1,70 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AiOutlineGithub, AiOutlineGooglePlus } from "react-icons/ai";
 import { FiFacebook } from "react-icons/fi";
 import { CiTwitter } from "react-icons/ci";
-import toast from "react-hot-toast";
 import { PropagateLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
 import { overrideStyle } from '../../utils/utils'
-import { user_login, messageClear } from "../../store/Reducers/authReducer";
+import { messageClear, admin_register } from "../../store/Reducers/authReducer";
+import toast from "react-hot-toast";
 
-
-const Login = () => {
-  const { loader, errorMessage, successMessage} = useSelector( state => state.auth)
-  const navigate = useNavigate()
+const AdminRegister = () => {
+  // const navigate = useNavigate()
   const dispatch = useDispatch();
+  const { loader, successMessage, errorMessage } = useSelector( state => state.auth)
   const [state, setState] = useState({
+    name: "",
     email: "",
+    mobile: "",
+    image: "",
     password: "",
+
   });
   const inputHandle = (e) => {
     setState({
       ...state,
       [e.target.name]: e.target.value,
-      
     });
   };
   const submit = (e) => {
     e.preventDefault();
-    dispatch(user_login(state));
+    dispatch(admin_register(state))
   };
+
   useEffect(()=>{
-    if(errorMessage){
+    if (successMessage) {
+      toast.success(successMessage)
+      dispatch(messageClear())
+    }
+    if (errorMessage) {
       toast.error(errorMessage)
       dispatch(messageClear())
     }
-    if(successMessage){
-      toast.success(successMessage)
-      dispatch(messageClear())
-      navigate('/')
-    }
-  },[errorMessage, successMessage])
-  
+  },[dispatch, successMessage, errorMessage])
   return (
-    <div
-      className="main-w-screen main-h-screen bg-[#161d31] flex
-     justify-center items-center"
-    >
+    <div className="main-w-screen main-h-screen bg-[#161d31] flex justify-center items-center">
       <div className="w-[350px] text-[#d0d2d6] p-2">
         <div className="bg-[#283046] p-4 rounded-md">
           <h2 className="text-xl mb-3">Welcome To E-Commerce</h2>
           <p className="text-sm mb-3">
-            Please Login To Your Account and Start Your Business
+            Please Register To Your Account and Start Your Business
           </p>
           <form onSubmit={submit}>
-            <div className="flex flex-col w-full gap-1 mb-5">
+            <div className="flex flex-col w-full gap-1 mb-3">
+              <label htmlFor="name">Name :</label>
+              <input
+                onChange={inputHandle}
+                value={state.name}
+                className="px-3 py-2 outline-none border border-slate-700 bg-transparent rounded-md text-[#d0d2d6] focus:border-indigo-500 overflow-hidden"
+                type="text"
+                name="name"
+                placeholder="Enter Your Name"
+                id="name"
+                required
+              />
+            </div>
+            <div className="flex flex-col w-full gap-1 mb-3">
               <label htmlFor="email">Email :</label>
               <input
                 onChange={inputHandle}
@@ -67,7 +77,20 @@ const Login = () => {
                 required
               />
             </div>
-            <div className="flex flex-col w-full gap-1 mb-5">
+            <div className="flex flex-col w-full gap-1 mb-3">
+              <label htmlFor="mobile">Mobile :</label>
+              <input
+                onChange={inputHandle}
+                value={state.mobile}
+                className="px-3 py-2 outline-none border border-slate-700 bg-transparent rounded-md text-[#d0d2d6] focus:border-indigo-500 overflow-hidden"
+                type="text"
+                name="mobile"
+                placeholder="Enter Your Mobile"
+                id="mobile"
+                required
+              />
+            </div>
+            <div className="flex flex-col w-full gap-1 mb-3">
               <label htmlFor="password">Password :</label>
               <input
                 onChange={inputHandle}
@@ -80,26 +103,27 @@ const Login = () => {
                 required
               />
             </div>
-            {/* <div className="flex flex-col w-full gap-1 mb-5">
-              <label htmlFor="password">Role :</label>
-              <select
-                onChange={(e) =>(e.target.value)}
-                className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]"
-              >
-                <option value="id">admin</option>
-                <option value="id">seller</option>
-                <option value="id">user</option>
-              </select>
-            </div> */}
-            <button disabled= { loader ? true : false } className="bg-blue-500 w-full hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3">
+            <div className="flex items-center w-full gap-3 mb-3">
+              <input
+                className="w-4 h-4 text-blue-600 overflow-hidden bg-gray-100 rounded border-gray-300 focus:ring-blue-500"
+                type="checkbox"
+                name="checkbox"
+                id="checkbox"
+                required
+              />
+              <label htmlFor="checkbox">
+                I Agree To Privacy Policy, Terms & Condition
+              </label>
+            </div>
+            <button disabled= { loader ? true : false } className="bg-blue-500 w-full hover:shadow-blue-500/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3">
               {
-                loader ? <PropagateLoader color ='#fff' cssOverride={overrideStyle} /> : 'Login'
-              }
+                loader ? <PropagateLoader color ='#fff' cssOverride={overrideStyle} /> : 'SignUp'
+}
+              
             </button>
             <div className="flex items-center mb-3 gap-3 justify-center">
               <p>
-                You Have Not An Account ?{" "}
-                <Link to="/register">Sign Up Hare</Link>
+                Already Have An Account ? <Link to="/login">Login Hare</Link>
               </p>
             </div>
             <div className="w-full flex justify-center items-center mb-3">
@@ -140,6 +164,4 @@ const Login = () => {
     </div>
   );
 };
-
-
-export default Login;
+export default AdminRegister;
