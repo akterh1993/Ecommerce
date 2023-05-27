@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineGithub, AiOutlineGooglePlus } from "react-icons/ai";
 import { FiFacebook } from "react-icons/fi";
 import { CiTwitter } from "react-icons/ci";
@@ -10,7 +12,7 @@ import { messageClear, user_register } from "../../store/Reducers/authReducer";
 import toast from "react-hot-toast";
 
 const Register = () => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const { loader, successMessage, errorMessage } = useSelector( state => state.auth)
   const [state, setState] = useState({
@@ -19,7 +21,6 @@ const Register = () => {
     mobile: "",
     image: "",
     password: "",
-    role: "",
 
   });
   const inputHandle = (e) => {
@@ -34,13 +35,14 @@ const Register = () => {
   };
 
   useEffect(()=>{
-    if (successMessage) {
-      toast.success(successMessage)
-      dispatch(messageClear())
-    }
     if (errorMessage) {
       toast.error(errorMessage)
       dispatch(messageClear())
+    }
+    if (successMessage) {
+      toast.success(successMessage)
+      dispatch(messageClear())
+      navigate('/')
     }
   },[dispatch, successMessage, errorMessage])
   return (
@@ -104,7 +106,7 @@ const Register = () => {
                 required
               />
             </div>
-            <div className="flex flex-col w-full gap-1 mb-3">
+            {/* <div className="flex flex-col w-full gap-1 mb-3">
               <label htmlFor="role">Role :</label>
               <input
                 onChange={inputHandle}
@@ -116,7 +118,7 @@ const Register = () => {
                 id="role"
                 required
               />
-            </div>
+            </div> */}
             <div className="flex items-center w-full gap-3 mb-3">
               <input
                 className="w-4 h-4 text-blue-600 overflow-hidden bg-gray-100 rounded border-gray-300 focus:ring-blue-500"

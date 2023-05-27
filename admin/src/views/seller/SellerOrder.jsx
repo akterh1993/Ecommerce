@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/scope */
 import React, { useState } from "react";
-import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 // import { GrClose } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
