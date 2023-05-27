@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BsImage } from "react-icons/bs";
-import { IoCloseSharp } from "react-icons/io5";
+// import { BsImage } from "react-icons/bs";
+// import { IoCloseSharp } from "react-icons/io5";
 
 const AddProduct = () => {
   const categorys =[
@@ -57,7 +57,7 @@ const AddProduct = () => {
   const [category, setCategory] = useState('')
   const [allCategory, setAllCategory] = useState([])
   const [searchValue, setSearchValue] = useState('')
-  const [images, setImages] = useState([])
+  // const [images, setImages] = useState([])
   const [imageShow, setImageShow] = useState([])
 
 
