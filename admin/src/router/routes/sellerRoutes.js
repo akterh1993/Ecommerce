@@ -1,5 +1,5 @@
 import { lazy } from "react";
-const Home = lazy(() => import("../../views/Home"));
+
 const SellerDashboard = lazy(() => import("../../views/seller/SellerDashboard"));
 const AddProduct = lazy(() => import("../../views/seller/AddProduct"));
 const AllProducts = lazy(() => import("../../views/seller/AllProducts"));
@@ -11,13 +11,20 @@ const ChatSupport = lazy(() => import("../../views/seller/ChatSupport"));
 const Profile = lazy(() => import("../../views/seller/Profile"));
 const EditProduct = lazy(() => import("../../views/seller/EditProduct"));
 const OrderDetails = lazy(() => import("../../views/seller/OrderDetails"));
+const Pending = lazy(() => import("../../views/Pending"));
+const Deactive = lazy(() => import("../../views/Deactive"));
 
 export const sellerRoutes = [
+    
     {
-        path: '/',
-        element: <Home />,
-        role : ['admin', 'seller'],
-        status : 'active'
+        path: '/seller/account-pending',
+        element: <Pending />,
+        ability : 'seller'
+    },
+    {
+        path: '/seller/account-deactive',
+        element: <Deactive />,
+        ability : 'seller'
     },
     {
         path: '/seller/dashboard',
@@ -53,13 +60,13 @@ export const sellerRoutes = [
         path: '/seller/dashboard/orders',
         element: <SellerOrder />,
         role : 'seller',
-        ability : ['active', 'deactive']
+        visibility : ['active', 'deactive']
     },
     {
         path: '/seller/dashboard/order/details/:orderId',
         element: <OrderDetails />,
         role : 'seller',
-        ability : ['active', 'deactive']
+        visibility : ['active', 'deactive']
     },
     {
         path: '/seller/dashboard/payments',
@@ -83,7 +90,7 @@ export const sellerRoutes = [
         path: '/seller/dashboard/chat-support',
         element: <ChatSupport />,
         role : 'seller',
-        ability : ['active', 'deactive', 'pending']
+        visibility : ['active', 'deactive', 'pending']
         
     },
     {

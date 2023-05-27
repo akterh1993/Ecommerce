@@ -3,6 +3,7 @@ const Login = lazy(() => import("../../views/auth/Login"));
 const Register = lazy(() => import("../../views/auth/Register"));
 const AdminLogin = lazy(() => import("../../views/auth/AdminLogin"));
 const AdminRegister = lazy(() => import("../../views/auth/AdminRegister"));
+const Unauthorized = lazy(() => import("../../views/Unauthorized"));
 
 
 const publicRoutes = [
@@ -21,6 +22,10 @@ const publicRoutes = [
   {
     path: "/admin/register",
     element: <AdminRegister />,
+  },
+  {
+    path: "/unauthorized",
+    element: <Unauthorized />,
   },
 ];
 
