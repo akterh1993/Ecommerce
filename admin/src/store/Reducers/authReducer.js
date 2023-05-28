@@ -91,7 +91,10 @@ export const authReducer = createSlice({
       successMessage: '',
       errorMessage: '',
       loader: false,
-      userinfo: "",
+      userInfo: "",
+      role: returnRole(localStorage.getItem('accessToken')),
+      token : localStorage.getItem('accessToken'),
+
       },
     reducers: {
       messageClear: (state, _) => {
@@ -155,7 +158,7 @@ export const authReducer = createSlice({
        },
        [get_user_info.fulfilled]: (state, { payload }) => {
         state.loader = false
-        state.successMessage = payload.message
+        state.userInfo = payload.userInfo
        },
           
           
