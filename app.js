@@ -22,8 +22,10 @@ app.use(
   );
 
 // import routes
-const authRouter = require("./routes/authRoute");
+const authRouter = require("./routes/dashboard/authRoute");
 app.use("/api", authRouter);
+const categoryRouter = require("./routes/dashboard/categoryRoute");
+app.use("/api", categoryRouter);
 
 
 module.exports = app;
