@@ -36,9 +36,9 @@ const Category = () => {
     }
   }
 
-  const add_category = (e)=> {
-          e.preventDefault()
-          dispatch(categoryAdd(state))
+  const submit = (e)=> {
+          e.preventDefault();
+          dispatch(categoryAdd(state));
   }
   useEffect(()=>{
     if(errorMessage){
@@ -162,7 +162,7 @@ const Category = () => {
               </h1>
               <div onClick={()=>setShow(false)} className="block lg:hidden cursor-pointer"><GrClose className="text-[#d0d2d6]" /></div>
               </div>
-              <form onSubmit={add_category}>
+              <form onSubmit={submit}>
                 <div className="flex flex-col w-full gap-1 mb-3">
                   <label htmlFor="name">Category Name : </label>
                   <input value={state.name} onChange={(e)=>setState({...state, name : e.target.value})}

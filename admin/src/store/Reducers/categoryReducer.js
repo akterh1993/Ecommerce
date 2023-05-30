@@ -18,17 +18,17 @@ export const categoryAdd = createAsyncThunk(
 )
 
 
-// export const get_category = createAsyncThunk(
-//     'auth/get_category',
-//     async (_, { rejectWithValue, fulfillWithValue }) => {
-//         try {
-//             const { data } = await api.get('/get-category', {withCredentials: true});
-//             return fulfillWithValue(data);
-//         } catch (error) {
-//             return rejectWithValue(error.response.data);
-//         }
-//     }
-// )
+export const get_category = createAsyncThunk(
+    'category/get_category',
+    async (_, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.get('/get-category', {withCredentials: true});
+            return fulfillWithValue(data);
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
 
 export const categoryReducer = createSlice({
     name : 'category',
@@ -59,7 +59,10 @@ export const categoryReducer = createSlice({
         state.successMessage = payload.message
         state.categories = [...state.categories, payload.category]
        },
-       
+       [get_category.fulfilled]: (state, { payload }) => {
+        state.loader = false
+        state.categories = payload.categories
+       },
           
       },  
 })
