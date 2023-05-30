@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/scope */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { BsImage } from "react-icons/bs";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
 import { PropagateLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
 import { overrideStyle } from '../../utils/utils'
@@ -15,7 +15,7 @@ const Category = () => {
   const dispatch = useDispatch();
   const { loader, errorMessage, successMessage} = useSelector( state => state.category)
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchValue, setSearchValue] = useState("");
+  // const [searchValue, setSearchValue] = useState("");
   const [parPage, setParPage] = useState(5);
   const [show, setShow] = useState(false);
 
@@ -37,9 +37,19 @@ const Category = () => {
   }
 
   const add_category = (e)=> {
-          e.preventDefault(state)
+          e.preventDefault()
           dispatch(categoryAdd(state))
   }
+  useEffect(()=>{
+    if(errorMessage){
+      toast.error(errorMessage)
+      dispatch(messageClear())
+    }
+    if(successMessage){
+      toast.success(successMessage)
+      dispatch(messageClear())
+    }
+  },[dispatch, errorMessage, successMessage])
 
   return (
     <div className="px-2 lg:px-7 pt-5">
@@ -152,7 +162,7 @@ const Category = () => {
               </h1>
               <div onClick={()=>setShow(false)} className="block lg:hidden cursor-pointer"><GrClose className="text-[#d0d2d6]" /></div>
               </div>
-              <form>
+              <form onSubmit={add_category}>
                 <div className="flex flex-col w-full gap-1 mb-3">
                   <label htmlFor="name">Category Name : </label>
                   <input value={state.name} onChange={(e)=>setState({...state, name : e.target.value})}
